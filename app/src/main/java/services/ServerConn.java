@@ -39,7 +39,7 @@ public class ServerConn {
     private SharedPreferences sharedPrefs;
     private static final MediaType JSON
             = MediaType.parse("application/json; charset=utf-8");
-    private static final String URL = "wss://conversation.chrisbriant.uk:8080/ws";
+    private static final String URL = "wss://conversation.chrisbriant.uk:8081/ws";
     private WebSocket sock;
 
     private ServerConn(Context ctx) {
@@ -79,7 +79,7 @@ public class ServerConn {
             SSLSocketFactory sslSocketFactory = sslContext.getSocketFactory();
 
             Log.d("HELLO", "Hello");
-            final Request request = new Request.Builder().url("wss://picgameserver.chrisbriant.uk:8080/ws")
+            final Request request = new Request.Builder().url(URL)
                     .build();
 
             client = new OkHttpClient.Builder()

@@ -12,6 +12,7 @@ public class SockNotifier {
     public interface MessageEventListener {
         public void onRegister(String id);
         public void onSetName(String name);
+        public void onRoomList(String rooms);
     }
 
     // Member variable was defined earlier
@@ -34,6 +35,9 @@ public class SockNotifier {
                 break;
             case "set_name":
                 listener.onSetName(data.getString("message"));
+                break;
+            case "room_list":
+                listener.onRoomList(data.getString("rooms"));
                 break;
         }
     }

@@ -3,7 +3,6 @@ package chrisbriant.uk.convo.activities;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,70 +14,68 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import chrisbriant.uk.convo.R;
+import objects.RoomList;
 import services.ServerConn;
 import services.SockNotifier;
 
-public class MainActivity extends AppCompatActivity {
+public class RoomListActivity extends AppCompatActivity {
     ServerConn conn;
     SockNotifier notifier;
-    SharedPreferences sharedPrefs;
-
+    RoomList roomList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_room_list);
 
-        sharedPrefs = this.getSharedPreferences(this.getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+        SharedPreferences sharedPrefs = this.getSharedPreferences(this.getString(R.string.preference_file_key), Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPrefs.edit();
 
         conn = ServerConn.getInstance(this);
-
         notifier = SockNotifier.getInstance();
-
-        Context ctx = this;
+        roomList = new RoomList();
 
         notifier.setListener(new SockNotifier.MessageEventListener() {
             @Override
             public void onRegister(String id) {
-                Log.d("Registration", id);
-                editor.putString("id",id);
-                editor.apply();
+
             }
+
             @Override
             public void onSetName(String name) {
-                Log.d("Setting Name", name);
-                editor.putString("name",name);
-                editor.apply();
-                //Start the room list activity
-                Intent intent = new Intent(ctx, RoomListActivity.class);
-                ctx.startActivity(intent);
+
             }
 
             @Override
             public void onRoomList(String rooms) {
-
-            }
-
-        });
-
-        //UI
-        EditText mainEdtName = findViewById(R.id.mainEdtName);
-        Button mainBtnSend = findViewById(R.id.mainBtnSend);
-
-        mainBtnSend.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                JSONObject payload = new JSONObject();
+                Log.d("ROOM LIST", "Room list triggered");
                 try {
-                    payload.put("type", "name");
-                    payload.put("client_id", sharedPrefs.getString("id",""));
-                    payload.put("name",mainEdtName.getText());
-                    conn.send(payload.toString());
+                    roomList.loadRooms(rooms);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
 
+            }
+        });
+
+        //UI
+        EditText rmListEdtRoomName = findViewById(R.id.rmListEdtRoomName);
+        Button rmListBtnSend = findViewById(R.id.rmListBtnSend);
+
+        rmListBtnSend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                JSONObject payload = new JSONObject();
+                try {
+                    payload.put("type", "create_room");
+                    payload.put("client_id", sharedPrefs.getString("id",""));
+                    payload.put("name",rmListEdtRoomName.getText());
+                    //Todo Tell the room if it is secure or not
+                    //Need to change UI to allow password input
+                    conn.send(payload.toString());
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         });
     }
