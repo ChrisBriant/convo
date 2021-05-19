@@ -14,14 +14,18 @@ import android.widget.EditText;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+
 import chrisbriant.uk.convo.R;
+import objects.RoomItem;
+import objects.RoomList;
 import services.ServerConn;
 import services.SockNotifier;
 
 public class MainActivity extends AppCompatActivity {
-    ServerConn conn;
-    SockNotifier notifier;
-    SharedPreferences sharedPrefs;
+    private ServerConn conn;
+    private SockNotifier notifier;
+    private SharedPreferences sharedPrefs;
 
 
     @Override
@@ -57,7 +61,14 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onRoomList(String rooms) {
-
+                RoomList roomList = RoomList.getInstance();
+                try {
+                    roomList.loadRooms(rooms);
+                    ArrayList<RoomItem> roomsForAdapter = roomList.loadRooms(rooms);
+                    Log.d("ROOMLIST", String.valueOf(roomList.size()));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
 
         });

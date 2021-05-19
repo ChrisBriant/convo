@@ -21,4 +21,10 @@
         android:text="@string/btn_send"
         />
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rmRecycRooms"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
+
 </LinearLayout>

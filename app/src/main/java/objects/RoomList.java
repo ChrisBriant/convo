@@ -1,5 +1,6 @@
 package objects;
 
+import android.content.Context;
 import android.util.Log;
 
 import org.json.JSONArray;
@@ -10,7 +11,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
 
+import services.ServerConn;
+
 public class RoomList extends HashMap {
+    private static RoomList single_instance = null;
+
     public RoomList() {
     }
 
@@ -32,16 +37,16 @@ public class RoomList extends HashMap {
         for(int i=0;i<roomsJSON.length(); i++) {
             JSONObject roomJSON = new JSONObject(roomsJSON.get(i).toString());
             String roomName = roomJSON.getString("name");
-            String owner = roomJSON.getString("owner_name");
-            JSONArray members = roomJSON.getJSONArray("user_names");
+            String owner = roomJSON.getString("owner");
+            JSONArray members = roomJSON.getJSONArray("members");
             ArrayList<String> userNames = new ArrayList<String>();
             for(int j=0;j<members.length();j++) {
                 userNames.add(members.getString(j));
             }
             Log.d("MEMBERS",userNames.toString());
-            boolean status = roomJSON.getBoolean("locked");
+            boolean secure = roomJSON.getBoolean("secure");
 
-            RoomItem room = new RoomItem(roomName,owner,status,members.length(),userNames);
+            RoomItem room = new RoomItem(roomName,owner,secure,members.length(),userNames);
 
             //Add to the hash table
             try {
@@ -59,5 +64,25 @@ public class RoomList extends HashMap {
         }
 
         return listOfRooms;
+    }
+
+    public ArrayList<RoomItem> getRoomList() {
+        ArrayList<RoomItem> listOfRooms = new ArrayList<RoomItem>();
+
+        Set<String> keys = this.keySet();
+        for (String key : keys) {
+            Log.d("KEY HERE", key);
+            listOfRooms.add((RoomItem) this.get(key));
+        }
+
+        return listOfRooms;
+    }
+
+    public static RoomList getInstance()
+    {
+        if (single_instance == null)
+            single_instance = new RoomList();
+
+        return single_instance;
     }
 }

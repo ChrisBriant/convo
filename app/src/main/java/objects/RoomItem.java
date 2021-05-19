@@ -6,33 +6,33 @@ public class RoomItem {
     private int roomId;
     private String roomName;
     private String owner;
-    private boolean roomStatus;
+    private boolean secure;
     private int playerCount;
     private ArrayList<String> players;
 
-    public RoomItem(int roomId, String roomName, String owner,boolean roomStatus, int playerCount, ArrayList<String> players) {
+    public RoomItem(int roomId, String roomName, String owner,boolean secure, int playerCount, ArrayList<String> players) {
         this.roomId = roomId;
         this.roomName = roomName;
         this.owner = owner;
-        this.roomStatus = roomStatus;
+        this.secure = secure;
         this.playerCount = playerCount;
         this.players = players;
     }
 
-    public RoomItem(int roomId, String roomName, String owner, boolean roomStatus, int playerCount) {
+    public RoomItem(int roomId, String roomName, String owner, boolean secure, int playerCount) {
         this.roomId = roomId;
         this.roomName = roomName;
         this.owner = owner;
-        this.roomStatus = roomStatus;
+        this.secure = secure;
         this.playerCount = playerCount;
         this.players = players;
     }
 
 
-    public RoomItem(String roomName, String owner, boolean roomStatus, int playerCount, ArrayList<String> players) {
+    public RoomItem(String roomName, String owner, boolean secure, int playerCount, ArrayList<String> players) {
         this.roomName = roomName;
         this.owner = owner;
-        this.roomStatus = roomStatus;
+        this.secure = secure;
         this.playerCount = playerCount;
     }
 
@@ -77,11 +77,11 @@ public class RoomItem {
     }
 
     public boolean isRoomStatus() {
-        return roomStatus;
+        return secure;
     }
 
-    public void setRoomStatus(boolean roomStatus) {
-        this.roomStatus = roomStatus;
+    public void setRoomStatus(boolean secure) {
+        this.secure = secure;
     }
 
 }
