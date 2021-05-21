@@ -71,6 +71,16 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
 
+            @Override
+            public void onAuthFailed() {
+
+            }
+
+            @Override
+            public void onEnterRoom(String roomName) {
+
+            }
+
         });
 
         //UI

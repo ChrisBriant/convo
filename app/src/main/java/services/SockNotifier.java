@@ -13,6 +13,8 @@ public class SockNotifier {
         public void onRegister(String id);
         public void onSetName(String name);
         public void onRoomList(String rooms);
+        public void onAuthFailed();
+        public void onEnterRoom(String roomName);
     }
 
     // Member variable was defined earlier
@@ -39,6 +41,10 @@ public class SockNotifier {
             case "room_list":
                 listener.onRoomList(data.getString("rooms"));
                 break;
+            case "room_access_denied":
+                listener.onAuthFailed();
+            case "room_entrance":
+                listener.onEnterRoom(data.getString("name"));
         }
     }
 

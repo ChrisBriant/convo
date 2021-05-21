@@ -76,7 +76,7 @@ public class RoomItem {
         this.players = players;
     }
 
-    public boolean isRoomStatus() {
+    public boolean isRoomSecure() {
         return secure;
     }
 

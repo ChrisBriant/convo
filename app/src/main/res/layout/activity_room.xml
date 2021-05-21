@@ -5,44 +5,33 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".activities.RoomListActivity">
+    tools:context=".activities.RoomActivity">
 
-    <EditText
-        android:id="@+id/rmListEdtRoomName"
+    <TextView
+        android:id="@+id/chatRmTxtTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/enter_room_text"
-        />
-
-
-    <CheckBox
-        android:id="@+id/rmListChkSecure"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/btn_secure"
-        android:visibility="gone"
-        />
-
-
-    <EditText
-        android:id="@+id/rmListEdtPassword"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/enter_room_password"
-        android:visibility="gone"
-        />
-
-    <Button
-        android:id="@+id/rmListBtnSend"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/btn_send"
+        android:textSize="40sp"
         />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rmRecycRooms"
+        android:id="@+id/chatRmRecycMembs"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        />
+
+    <EditText
+        android:id="@+id/chatRmEdtMessage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/edt_chat_message"
+        />
+
+    <Button
+        android:id="@+id/chatRmBtnSend"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/btn_send"
         />
 
 </LinearLayout>

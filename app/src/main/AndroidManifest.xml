@@ -12,7 +12,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Convo">
-        <activity android:name=".activities.RoomListActivity"></activity>
+        <activity android:name=".activities.RoomActivity"></activity>
+        <activity android:name=".activities.RoomListActivity" />
         <activity android:name=".activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

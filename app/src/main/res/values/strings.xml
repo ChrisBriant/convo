@@ -4,4 +4,12 @@
     <string name="enter_name">Enter Name</string>
     <string name="btn_send">Send</string>
     <string name="enter_room_text">Enter Room Name</string>
+    <string name="btn_secure">Password Protect?</string>
+    <string name="enter_room_password">Enter Password</string>
+    <string name="btn_cancel">Cancel</string>
+    <string name="txt_pw_error">Sorry the password is incorrect.</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="sure_text">Are you sure?</string>
+    <string name="edt_chat_message">Send a chat message...</string>
 </resources>

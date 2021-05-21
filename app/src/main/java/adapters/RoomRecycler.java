@@ -1,25 +1,36 @@
 package adapters;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import chrisbriant.uk.convo.R;
+import chrisbriant.uk.convo.activities.RoomActivity;
+import chrisbriant.uk.convo.activities.RoomListActivity;
 import objects.RoomItem;
 import services.ServerConn;
+import services.SockNotifier;
 
 public class RoomRecycler extends RecyclerView.Adapter<RoomRecycler.ViewHolder> {
     private Context context;
@@ -44,14 +55,19 @@ public class RoomRecycler extends RecyclerView.Adapter<RoomRecycler.ViewHolder> 
         RoomItem room = roomList.get(position);
 
         holder.rmItmName.setText(room.getRoomName());
-        holder.rmOwner.setText(room.getOwner());
+        //holder.rmOwner.setText(room.getOwner());
         holder.rmNoPlayers.setText(String.valueOf(room.getPlayerCount()));
-        Log.d("ROOM STATUS IN HOLDER", String.valueOf(room.isRoomStatus()));
+        //Log.d("ROOM STATUS IN HOLDER", String.valueOf(room.isRoomStatus()));
 //        if(room.isRoomStatus()) {
 //            holder.rmStatus.setText("Locked");
 //        } else {
 //            holder.rmStatus.setText("Open");
 //        }
+        if(room.isRoomSecure()) {
+            holder.rmItmSecure.setText("secure");
+        } else {
+            holder.rmItmSecure.setText("open");
+        }
 
         Log.d("BINDING",room.getRoomName());
     }
@@ -67,16 +83,17 @@ public class RoomRecycler extends RecyclerView.Adapter<RoomRecycler.ViewHolder> 
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        private SharedPreferences sharedPrefs;
         private TextView rmItmName;
-        private TextView rmOwner;
+        //private TextView rmOwner;
         private TextView rmNoPlayers;
         private TextView rmItmSecure;
 
         public ViewHolder(@NonNull View itemView, Context ctx) {
             super(itemView);
-
+            sharedPrefs = ctx.getSharedPreferences(ctx.getString(R.string.preference_file_key), Context.MODE_PRIVATE);
             rmItmName = itemView.findViewById(R.id.rmItmName2);
-            rmOwner = itemView.findViewById(R.id.rmItmOwner);
+            ///rmOwner = itemView.findViewById(R.id.rmItmOwner);
             rmNoPlayers = itemView.findViewById(R.id.rmItmNoPlayers);
             rmItmSecure = itemView.findViewById(R.id.rmItmSecure);
 
@@ -86,27 +103,109 @@ public class RoomRecycler extends RecyclerView.Adapter<RoomRecycler.ViewHolder> 
         @Override
         public void onClick(View v) {
             RoomItem r = roomList.get(getAdapterPosition());
-            if(r.isRoomStatus()) {
-                Toast.makeText(context,"Sorry room is not available.",Toast.LENGTH_SHORT).show();
+            if(r.isRoomSecure()) {
+                Context ctx = v.getContext();
+                //Launch dialog which asks for password
+                //Create alert builder
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(ctx);
+
+                LayoutInflater inflater = LayoutInflater.from(ctx);
+                View view = inflater.inflate(R.layout.diag_password,null);
+                TextView pwDiagTxtErr = view.findViewById(R.id.pwDiagTxtErr);
+                EditText pwDiagEdtPassword = view.findViewById(R.id.pwDiagEdtPassword);
+                Button pwDiagBtnSend = view.findViewById(R.id.pwDiagBtnSend);
+                Button pwDiagBtnCancel = view.findViewById(R.id.pwDiagBtnCancel);
+
+                alertDialogBuilder.setView(view);
+                final AlertDialog alertDialog = alertDialogBuilder.create();
+                alertDialog.show();
+                SockNotifier notifier = SockNotifier.getInstance();
+                notifier.setListener(new SockNotifier.MessageEventListener() {
+                    @Override
+                    public void onRegister(String id) {
+
+                    }
+
+                    @Override
+                    public void onSetName(String name) {
+
+                    }
+
+                    @Override
+                    public void onRoomList(String rooms) {
+
+                    }
+
+                    @Override
+                    public void onAuthFailed() {
+                        ((AppCompatActivity) context).runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                pwDiagTxtErr.setVisibility(View.VISIBLE);
+                            }
+                        });
+
+                    }
+
+                    @Override
+                    public void onEnterRoom(String roomName) {
+                        ((AppCompatActivity) context).runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                pwDiagTxtErr.setVisibility(View.GONE);
+                                Intent intent = new Intent(ctx, RoomActivity.class);
+                                intent.putExtra("roomName",roomName);
+                                ctx.startActivity(intent);
+                            }
+                        });
+                    }
+                });
+
+                pwDiagBtnCancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        pwDiagTxtErr.setVisibility(View.GONE);
+                        alertDialog.dismiss();
+                    }
+                });
+
+                pwDiagEdtPassword.setOnKeyListener(new View.OnKeyListener() {
+                    @Override
+                    public boolean onKey(View v, int keyCode, KeyEvent event) {
+                        pwDiagTxtErr.setVisibility(View.GONE);
+                        return false;
+                    }
+                });
+
+                pwDiagBtnSend.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        JSONObject payload = new JSONObject();
+                        try {
+                            payload.put("type", "enter_room");
+                            payload.put("client_id", sharedPrefs.getString("id",""));
+                            payload.put("name",r.getRoomName());
+                            payload.put("secure", r.isRoomSecure());
+                            payload.put("password",pwDiagEdtPassword.getText());
+                            conn.send(payload.toString());
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
             } else {
-                //Enter room here
-                SharedPreferences sharedPrefs = context.getSharedPreferences(
-                        context.getString(R.string.preference_file_key), Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedPrefs.edit();
-                editor.putString("current_room",r.getRoomName());
-                editor.apply();
+                //Go straight to the room
                 JSONObject payload = new JSONObject();
                 try {
                     payload.put("type", "enter_room");
                     payload.put("client_id", sharedPrefs.getString("id",""));
-                    payload.put("name", r.getRoomName());
+                    payload.put("name",r.getRoomName());
+                    payload.put("secure", r.isRoomSecure());
+                    payload.put("password","");
                     conn.send(payload.toString());
-                } catch (Exception e) {
+                } catch (JSONException e) {
                     e.printStackTrace();
-                    Log.d("AUTH", "Exception Fired");
                 }
-                //Intent intent = new Intent(context, RoomActivity.class);
-                //context.startActivity(intent);
             }
         }
     }

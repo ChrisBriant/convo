@@ -16,12 +16,14 @@
         android:text="loading"
         />
 
+    <!--
     <TextView
         android:id="@+id/rmItmOwner"
         android:layout_width="80dp"
         android:layout_height="wrap_content"
         android:text="loading"
         />
+    -->
 
     <TextView
         android:id="@+id/rmItmNoPlayers"
