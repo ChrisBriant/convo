@@ -14,7 +14,7 @@ public class SockNotifier {
         public void onSetName(String name);
         public void onRoomList(String rooms);
         public void onAuthFailed();
-        public void onEnterRoom(String roomName);
+        public void onEnterRoom(String roomName,String clientId,String clientName);
     }
 
     // Member variable was defined earlier
@@ -43,8 +43,11 @@ public class SockNotifier {
                 break;
             case "room_access_denied":
                 listener.onAuthFailed();
+                break;
             case "room_entrance":
-                listener.onEnterRoom(data.getString("name"));
+                JSONObject client = new JSONObject(data.getString("client"));
+                listener.onEnterRoom(data.getString("name"),client.getString("id"),client.getString("name"));
+                break;
         }
     }
 

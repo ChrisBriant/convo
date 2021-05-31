@@ -29,6 +29,7 @@ import chrisbriant.uk.convo.R;
 import chrisbriant.uk.convo.activities.RoomActivity;
 import chrisbriant.uk.convo.activities.RoomListActivity;
 import objects.RoomItem;
+import objects.RoomList;
 import services.ServerConn;
 import services.SockNotifier;
 
@@ -148,14 +149,22 @@ public class RoomRecycler extends RecyclerView.Adapter<RoomRecycler.ViewHolder> 
                     }
 
                     @Override
-                    public void onEnterRoom(String roomName) {
+                    public void onEnterRoom(String roomName,String clientId,String clientName) {
+                        Log.d("ROOMENTERED",roomName);
                         ((AppCompatActivity) context).runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
                                 pwDiagTxtErr.setVisibility(View.GONE);
-                                Intent intent = new Intent(ctx, RoomActivity.class);
-                                intent.putExtra("roomName",roomName);
-                                ctx.startActivity(intent);
+                                RoomList rooms = new RoomList((ArrayList<RoomItem>) roomList);
+                                RoomItem roomItem = (RoomItem) rooms.get((Object) roomName);
+                                roomItem.addPlayer(clientId,clientName);
+                                //Log.d("ROOMENTERED",roomItem.getOwner());
+                                //Go to the room if the client id matches
+                                if(sharedPrefs.getString("id","").equals(clientId)) {
+                                    Intent intent = new Intent(ctx, RoomActivity.class);
+                                    intent.putExtra("roomName",roomName);
+                                    ctx.startActivity(intent);
+                                }
                             }
                         });
                     }
@@ -206,6 +215,45 @@ public class RoomRecycler extends RecyclerView.Adapter<RoomRecycler.ViewHolder> 
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+
+                SockNotifier notifier = SockNotifier.getInstance();
+                notifier.setListener(new SockNotifier.MessageEventListener() {
+                    @Override
+                    public void onRegister(String id) {
+
+                    }
+
+                    @Override
+                    public void onSetName(String name) {
+
+                    }
+
+                    @Override
+                    public void onRoomList(String rooms) {
+
+                    }
+
+                    @Override
+                    public void onAuthFailed() { }
+
+                    @Override
+                    public void onEnterRoom(String roomName,String clientId,String clientName) {
+                        Log.d("ROOMENTERED",roomName);
+                        ((AppCompatActivity) context).runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                if(sharedPrefs.getString("id","").equals(clientId)) {
+                                    RoomList rooms = new RoomList((ArrayList<RoomItem>) roomList);
+                                    RoomItem roomItem = (RoomItem) rooms.get((Object) roomName);
+                                    roomItem.addPlayer(clientId,clientName);
+                                    Intent intent = new Intent(context, RoomActivity.class);
+                                    intent.putExtra("roomName",roomName);
+                                    context.startActivity(intent);
+                                }
+                            }
+                        });
+                    }
+                });
             }
         }
     }

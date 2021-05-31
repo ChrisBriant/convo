@@ -101,7 +101,7 @@ public class RoomListActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onEnterRoom(String roomName) {
+            public void onEnterRoom(String roomName, String clientId, String clientName) {
 
             }
         });

@@ -1,6 +1,11 @@
 package objects;
 
+import android.util.Log;
+
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Set;
 
 public class RoomItem {
     private int roomId;
@@ -9,6 +14,7 @@ public class RoomItem {
     private boolean secure;
     private int playerCount;
     private ArrayList<String> players;
+    private HashMap<String,String> members;
 
     public RoomItem(int roomId, String roomName, String owner,boolean secure, int playerCount, ArrayList<String> players) {
         this.roomId = roomId;
@@ -34,6 +40,8 @@ public class RoomItem {
         this.owner = owner;
         this.secure = secure;
         this.playerCount = playerCount;
+        this.players = players;
+        this.members = new HashMap<String,String>();
     }
 
     public int getRoomId() {
@@ -76,6 +84,14 @@ public class RoomItem {
         this.players = players;
     }
 
+    public void addPlayer(String clientId,String name) {
+        members.put(clientId,name);
+    }
+
+    public HashMap<String, String> getMembers() {
+        return members;
+    }
+
     public boolean isRoomSecure() {
         return secure;
     }
@@ -84,4 +100,16 @@ public class RoomItem {
         this.secure = secure;
     }
 
+    public List<Member> getMembersAsList() {
+
+        ArrayList<Member> memberList = new ArrayList<Member>();
+        Set<String> keys = this.members.keySet();
+        for (String key : keys) {
+            //Log.d("KEY HERE", key);
+            memberList.add(new Member(key, this.members.get(key)));
+            //memberList.add((Member) this.members.get(key));
+        }
+
+        return memberList;
+    }
 }

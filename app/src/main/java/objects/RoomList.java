@@ -9,6 +9,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Set;
 
 import services.ServerConn;
@@ -17,6 +18,16 @@ public class RoomList extends HashMap {
     private static RoomList single_instance = null;
 
     public RoomList() {
+    }
+
+    //RoomList from an arraylist of room item
+    public RoomList(ArrayList<RoomItem> roomItems) {
+        this.clear();
+
+        for(int i =0;i<roomItems.size();i++) {
+            RoomItem roomItem = roomItems.get(i);
+            this.put(roomItem.getRoomName(),roomItem);
+        }
     }
 
     public JSONObject getRoom(String key) {
@@ -40,8 +51,10 @@ public class RoomList extends HashMap {
             String owner = roomJSON.getString("owner");
             JSONArray members = roomJSON.getJSONArray("members");
             ArrayList<String> userNames = new ArrayList<String>();
+            HashMap<String,String> roomMembers = new HashMap<String,String>();
             for(int j=0;j<members.length();j++) {
                 userNames.add(members.getString(j));
+                //roomMembers.put()
             }
             Log.d("MEMBERS",userNames.toString());
             boolean secure = roomJSON.getBoolean("secure");
@@ -85,4 +98,6 @@ public class RoomList extends HashMap {
 
         return single_instance;
     }
+
+
 }
