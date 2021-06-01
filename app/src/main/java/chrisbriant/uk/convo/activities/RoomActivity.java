@@ -54,7 +54,7 @@ public class RoomActivity extends AppCompatActivity {
 
         //UI
         TextView chatRmTxtTitle = findViewById(R.id.chatRmTxtTitle);
-        chatRmTxtTitle.setText(roomName);
+        chatRmTxtTitle.setText("You are in room " + roomName);
         EditText chatRmEdtMessage = findViewById(R.id.chatRmEdtMessage);
 
         RoomList roomList = RoomList.getInstance();
@@ -70,7 +70,7 @@ public class RoomActivity extends AppCompatActivity {
         membersRecycler.notifyDataSetChanged();
 
         //Create the chat recycler
-        chatRecyclerView = findViewById(R.id.chatRmRecycMembs);
+        chatRecyclerView = findViewById(R.id.chatRmRecycChat);
         chatRecyclerView.setHasFixedSize(true);
         chatRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 

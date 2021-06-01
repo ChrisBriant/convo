@@ -13,4 +13,7 @@
     <string name="sure_text">Are you sure?</string>
     <string name="edt_chat_message">Send a chat message...</string>
     <string name="btn_exit">Exit</string>
+    <string name="text_members">Also in the Room:</string>
+    <string name="text_messages">Messages:</string>
+    <string name="enter_personal_message">Type a message</string>
 </resources>
