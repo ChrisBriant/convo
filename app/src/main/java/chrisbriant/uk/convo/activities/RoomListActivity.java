@@ -16,6 +16,7 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.RadioGroup;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -101,7 +102,12 @@ public class RoomListActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onEnterRoom(String roomName, String clientId, String clientName) {
+            public void onEnterRoom(String roomName, String clientId, String clientName, JSONArray membersJson) {
+
+            }
+
+            @Override
+            public void onRoomMessage(String clientId, String clientName, String message) {
 
             }
         });
@@ -124,6 +130,8 @@ public class RoomListActivity extends AppCompatActivity {
                     if(rmListChkSecure.isChecked()) {
                         payload.put("secure",true);
                         payload.put("password", rmListEdtPassword.getText());
+                        editor.putString("password",rmListEdtPassword.getText().toString());
+                        editor.apply();
                     } else {
                         payload.put("secure",false);
                         payload.put("password", "");

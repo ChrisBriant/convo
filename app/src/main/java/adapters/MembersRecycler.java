@@ -38,7 +38,7 @@ public class MembersRecycler extends RecyclerView.Adapter<MembersRecycler.ViewHo
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Member member = members.get(position);
-
+        Log.d("BINDING", member.getName());
         holder.membItmName.setText(member.getName());
     }
 

@@ -17,7 +17,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/chatRmRecycMembs"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="100dp"
         />
 
     <EditText
@@ -27,11 +27,24 @@
         android:text="@string/edt_chat_message"
         />
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/chatRmRecycChat"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        />
+
     <Button
         android:id="@+id/chatRmBtnSend"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/btn_send"
+        />
+
+    <Button
+        android:id="@+id/chatRmBtnExit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/btn_exit"
         />
 
 </LinearLayout>

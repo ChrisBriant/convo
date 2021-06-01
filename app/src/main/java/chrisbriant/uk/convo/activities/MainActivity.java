@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -77,7 +78,12 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onEnterRoom(String roomName, String clientId, String clientName) {
+            public void onEnterRoom(String roomName, String clientId, String clientName, JSONArray membersJson) {
+
+            }
+
+            @Override
+            public void onRoomMessage(String clientId, String clientName, String message) {
 
             }
 

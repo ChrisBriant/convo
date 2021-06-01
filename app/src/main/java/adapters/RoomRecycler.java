@@ -19,6 +19,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -93,6 +94,7 @@ public class RoomRecycler extends RecyclerView.Adapter<RoomRecycler.ViewHolder> 
         public ViewHolder(@NonNull View itemView, Context ctx) {
             super(itemView);
             sharedPrefs = ctx.getSharedPreferences(ctx.getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+            //SharedPreferences.Editor editor = sharedPrefs.edit();
             rmItmName = itemView.findViewById(R.id.rmItmName2);
             ///rmOwner = itemView.findViewById(R.id.rmItmOwner);
             rmNoPlayers = itemView.findViewById(R.id.rmItmNoPlayers);
@@ -149,15 +151,24 @@ public class RoomRecycler extends RecyclerView.Adapter<RoomRecycler.ViewHolder> 
                     }
 
                     @Override
-                    public void onEnterRoom(String roomName,String clientId,String clientName) {
+                    public void onEnterRoom(String roomName,String clientId,String clientName,JSONArray membersJson) {
+                        sharedPrefs = ctx.getSharedPreferences(ctx.getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedPrefs.edit();
                         Log.d("ROOMENTERED",roomName);
                         ((AppCompatActivity) context).runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
                                 pwDiagTxtErr.setVisibility(View.GONE);
+                                editor.putString("password",pwDiagEdtPassword.getText().toString());
+                                editor.apply();
                                 RoomList rooms = new RoomList((ArrayList<RoomItem>) roomList);
                                 RoomItem roomItem = (RoomItem) rooms.get((Object) roomName);
                                 roomItem.addPlayer(clientId,clientName);
+                                try {
+                                    roomItem.addMembersFromJSONArray(membersJson);
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
                                 //Log.d("ROOMENTERED",roomItem.getOwner());
                                 //Go to the room if the client id matches
                                 if(sharedPrefs.getString("id","").equals(clientId)) {
@@ -167,6 +178,11 @@ public class RoomRecycler extends RecyclerView.Adapter<RoomRecycler.ViewHolder> 
                                 }
                             }
                         });
+                    }
+
+                    @Override
+                    public void onRoomMessage(String clientId, String clientName, String message) {
+
                     }
                 });
 
@@ -237,15 +253,23 @@ public class RoomRecycler extends RecyclerView.Adapter<RoomRecycler.ViewHolder> 
                     public void onAuthFailed() { }
 
                     @Override
-                    public void onEnterRoom(String roomName,String clientId,String clientName) {
+                    public void onEnterRoom(String roomName, String clientId, String clientName, JSONArray membersJson) {
                         Log.d("ROOMENTERED",roomName);
+                        SharedPreferences.Editor editor = sharedPrefs.edit();
                         ((AppCompatActivity) context).runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
                                 if(sharedPrefs.getString("id","").equals(clientId)) {
+                                    editor.putString("password","");
+                                    editor.apply();
                                     RoomList rooms = new RoomList((ArrayList<RoomItem>) roomList);
                                     RoomItem roomItem = (RoomItem) rooms.get((Object) roomName);
                                     roomItem.addPlayer(clientId,clientName);
+                                    try {
+                                        roomItem.addMembersFromJSONArray(membersJson);
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
                                     Intent intent = new Intent(context, RoomActivity.class);
                                     intent.putExtra("roomName",roomName);
                                     context.startActivity(intent);
@@ -253,6 +277,12 @@ public class RoomRecycler extends RecyclerView.Adapter<RoomRecycler.ViewHolder> 
                             }
                         });
                     }
+
+                    @Override
+                    public void onRoomMessage(String clientId, String clientName, String message) {
+
+                    }
+
                 });
             }
         }
