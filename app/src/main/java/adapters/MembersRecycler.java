@@ -2,6 +2,7 @@ package adapters;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,7 +12,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.List;
@@ -57,10 +62,12 @@ public class MembersRecycler extends RecyclerView.Adapter<MembersRecycler.ViewHo
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private TextView membItmName;
+        private SharedPreferences sharedPrefs;
+        private Context ctx;
 
         public ViewHolder(@NonNull View itemView, Context ctx) {
             super(itemView);
-
+            this.ctx = ctx;
             membItmName = itemView.findViewById(R.id.membItmName);
             itemView.setOnClickListener(this);
         }
@@ -68,37 +75,58 @@ public class MembersRecycler extends RecyclerView.Adapter<MembersRecycler.ViewHo
         @Override
         public void onClick(View v) {
             Member m = members.get(getAdapterPosition());
+            sharedPrefs = sharedPrefs = ctx.getSharedPreferences(ctx.getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+            String myId = sharedPrefs.getString("id","");
+            String myName = sharedPrefs.getString("name","");
 
-            Context ctx = v.getContext();
-            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(ctx);
+            if(!m.getClientId().equals(myId)) {
+                Context ctx = v.getContext();
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(ctx);
 
-            LayoutInflater inflater = LayoutInflater.from(ctx);
-            View view = inflater.inflate(R.layout.diag_personal_message,null);
-            TextView pmDiagTxtErr = view.findViewById(R.id.pmDiagTxtErr);
-            TextView pmDiagTitle = view.findViewById(R.id.pmDiagTitle);
-            pmDiagTitle.setText("Send a personal message to " + m.getName());
-            EditText pmDiagEdtPassword = view.findViewById(R.id.pmDiagEdtPassword);
-            Button pmDiagBtnSend = view.findViewById(R.id.pmDiagBtnSend);
-            Button pmDiagBtnCancel = view.findViewById(R.id.pmDiagBtnCancel);
+                LayoutInflater inflater = LayoutInflater.from(ctx);
+                View view = inflater.inflate(R.layout.diag_personal_message,null);
+                TextView pmDiagTxtErr = view.findViewById(R.id.pmDiagTxtErr);
+                TextView pmDiagTitle = view.findViewById(R.id.pmDiagTitle);
+                pmDiagTitle.setText("Send a personal message to " + m.getName());
+                EditText pmDiagEdtPassword = view.findViewById(R.id.pmDiagEdtPassword);
+                Button pmDiagBtnSend = view.findViewById(R.id.pmDiagBtnSend);
+                Button pmDiagBtnCancel = view.findViewById(R.id.pmDiagBtnCancel);
 
-            alertDialogBuilder.setView(view);
-            final AlertDialog alertDialog = alertDialogBuilder.create();
-            alertDialog.show();
+                alertDialogBuilder.setView(view);
+                final AlertDialog alertDialog = alertDialogBuilder.create();
+                alertDialog.show();
 
-            pmDiagBtnSend.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
+                pmDiagBtnSend.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        JSONObject payload = new JSONObject();
 
-                }
-            });
+                        ((AppCompatActivity) context).runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                try {
+                                    payload.put("type", "room_pm");
+                                    payload.put("client_id", m.getClientId());
+                                    payload.put("message", pmDiagEdtPassword.getText());
+                                    payload.put("sender", myName);
+                                    conn.send(payload.toString());
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        });
+                    }
+                });
 
-            pmDiagBtnCancel.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    pmDiagTxtErr.setVisibility(View.GONE);
-                    alertDialog.dismiss();
-                }
-            });
+                pmDiagBtnCancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        pmDiagTxtErr.setVisibility(View.GONE);
+                        alertDialog.dismiss();
+                    }
+                });
+            }
+
         }
     }
 }

@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
     private ServerConn conn;
     private SockNotifier notifier;
     private SharedPreferences sharedPrefs;
-    
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
