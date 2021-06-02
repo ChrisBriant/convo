@@ -10,10 +10,12 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
@@ -27,12 +29,24 @@ public class MainActivity extends AppCompatActivity {
     private ServerConn conn;
     private SockNotifier notifier;
     private SharedPreferences sharedPrefs;
-
-
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //Handle the error message if there is one
+        Intent intent = getIntent();
+        String socketFailureMessage = "";
+        try {
+            socketFailureMessage = (String) intent.getExtras().get("socketFailure");
+        } catch (Exception e) {
+            socketFailureMessage = "";
+            e.printStackTrace();
+        }
+
+        TextView mainTxtErr = findViewById(R.id.mainTxtErr);
+        mainTxtErr.setText(socketFailureMessage);
 
         sharedPrefs = this.getSharedPreferences(this.getString(R.string.preference_file_key), Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPrefs.edit();
@@ -84,6 +98,11 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onRoomMessage(String clientId, String clientName, String message) {
+
+            }
+
+            @Override
+            public void onSocketClosed() {
 
             }
 

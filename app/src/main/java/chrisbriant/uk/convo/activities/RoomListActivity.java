@@ -110,6 +110,11 @@ public class RoomListActivity extends AppCompatActivity {
             public void onRoomMessage(String clientId, String clientName, String message) {
 
             }
+
+            @Override
+            public void onSocketClosed() {
+
+            }
         });
 
         //UI

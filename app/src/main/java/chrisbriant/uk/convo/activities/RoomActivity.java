@@ -45,6 +45,8 @@ public class RoomActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_room);
 
+        Context ctx = this;
+
         Intent intent = getIntent();
         String roomName = (String) intent.getExtras().get("roomName");
         conn = ServerConn.getInstance(this);
@@ -190,6 +192,13 @@ public class RoomActivity extends AppCompatActivity {
                     }
                 });
 
+            }
+
+            @Override
+            public void onSocketClosed() {
+                Intent intent = new Intent(ctx, MainActivity.class);
+                intent.putExtra("socketFailure","The web socket has closed, please try again.");
+                ctx.startActivity(intent);
             }
         });
     }

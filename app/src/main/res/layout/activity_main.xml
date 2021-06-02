@@ -21,4 +21,11 @@
         android:text="@string/btn_send"
         />
 
+    <TextView
+        android:id="@+id/mainTxtErr"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/error"
+        />
+
 </LinearLayout>

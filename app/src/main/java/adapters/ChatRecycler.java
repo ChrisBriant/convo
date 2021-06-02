@@ -1,6 +1,7 @@
 package adapters;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,7 +17,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import chrisbriant.uk.convo.R;
-import objects.Member;
 import objects.RoomMessage;
 import services.ServerConn;
 
@@ -40,12 +40,22 @@ public class ChatRecycler extends RecyclerView.Adapter<ChatRecycler.ViewHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        SharedPreferences sharedPrefs = context.getSharedPreferences(context.getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+        String myId =  sharedPrefs.getString("id","");
         RoomMessage message = messages.get(position);
         Log.d("BINDING", message.getFromClientId());
         Drawable speachOutgoing = ContextCompat.getDrawable(context, R.drawable.speach_outgoing);
-        holder.chItmTxt.setBackground(speachOutgoing);
-        holder.chItmTxt.setPadding(80,6,0,6);
-        holder.chItmTxt.setText(message.getMessage());
+        Drawable speachIncomming = ContextCompat.getDrawable(context, R.drawable.speech_incoming);
+        if(message.getFromClientId().equals(myId)) {
+            holder.chItmTxt.setBackground(speachOutgoing);
+            holder.chItmTxt.setPadding(80,6,0,6);
+            holder.chItmTxt.setText(message.getMessage());
+        } else {
+            holder.chItmTxt.setBackground(speachIncomming);
+            holder.chItmTxt.setPadding(10,6,80,6);
+            holder.chItmTxt.setText(message.getMessage());
+        }
+
     }
 
     @Override

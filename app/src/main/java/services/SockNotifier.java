@@ -17,6 +17,7 @@ public class SockNotifier {
         public void onAuthFailed();
         public void onEnterRoom(String roomName,String clientId,String clientName,JSONArray members);
         public void onRoomMessage(String clientId,String clientName,String message);
+        public void onSocketClosed();
     }
 
     // Member variable was defined earlier
@@ -54,6 +55,9 @@ public class SockNotifier {
             case "room_message":
                 JSONObject rmMessageclientFrom = new JSONObject(data.getString("client"));
                 listener.onRoomMessage(rmMessageclientFrom.getString("id"),rmMessageclientFrom.getString("name"), data.getString("message"));
+                break;
+            case "socket_closed":
+                listener.onSocketClosed();
                 break;
         }
     }

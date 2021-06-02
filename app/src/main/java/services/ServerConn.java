@@ -103,7 +103,13 @@ public class ServerConn {
                 public void onFailure(@NotNull WebSocket webSocket, @NotNull Throwable t, @Nullable Response response) {
                     //super.onFailure(webSocket, t, response);
                     Log.d("Failure", "The websocket has failed");
-                    //Log.d("Failure", response.message());
+                    JSONObject data = new JSONObject();
+                    try {
+                        data.put("type","socket_closed");
+                        notifier.sendMessage(data);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }
 
                 @Override
