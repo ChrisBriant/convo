@@ -115,6 +115,11 @@ public class RoomListActivity extends AppCompatActivity {
             public void onSocketClosed() {
 
             }
+
+            @Override
+            public void onPrivateMessage(String sender, String message) {
+
+            }
         });
 
         //UI

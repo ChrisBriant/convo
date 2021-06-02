@@ -200,6 +200,25 @@ public class RoomActivity extends AppCompatActivity {
                 intent.putExtra("socketFailure","The web socket has closed, please try again.");
                 ctx.startActivity(intent);
             }
+
+            @Override
+            public void onPrivateMessage(String sender, String message) {
+                messages.add(new RoomMessage(
+                        sender,
+                        message
+                ));
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            chatRecycler.setMessages(messages);
+                            chatRecycler.notifyDataSetChanged();
+                        } catch (Exception e) {
+                            Log.d("EXCEPTION", e.toString());
+                        }
+                    }
+                });
+            }
         });
     }
 }

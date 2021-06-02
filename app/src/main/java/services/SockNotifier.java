@@ -18,6 +18,7 @@ public class SockNotifier {
         public void onEnterRoom(String roomName,String clientId,String clientName,JSONArray members);
         public void onRoomMessage(String clientId,String clientName,String message);
         public void onSocketClosed();
+        public void onPrivateMessage(String sender, String message);
     }
 
     // Member variable was defined earlier
@@ -58,6 +59,9 @@ public class SockNotifier {
                 break;
             case "socket_closed":
                 listener.onSocketClosed();
+                break;
+            case "in_room_pm":
+                listener.onPrivateMessage(data.getString("sender"), data.getString("message"));
                 break;
         }
     }

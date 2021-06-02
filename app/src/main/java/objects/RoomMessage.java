@@ -24,6 +24,13 @@ public class RoomMessage {
         this.isPrivate = false;
     }
 
+    public RoomMessage(String fromClientName, String message) {
+        this.fromClientId = "";
+        this.fromClientName = fromClientName;
+        this.message = message;
+        this.isPrivate = true;
+    }
+
     public String getFromClientId() {
         return fromClientId;
     }

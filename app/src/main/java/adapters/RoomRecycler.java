@@ -189,6 +189,11 @@ public class RoomRecycler extends RecyclerView.Adapter<RoomRecycler.ViewHolder> 
                     public void onSocketClosed() {
 
                     }
+
+                    @Override
+                    public void onPrivateMessage(String sender, String message) {
+
+                    }
                 });
 
                 pwDiagBtnCancel.setOnClickListener(new View.OnClickListener() {
@@ -290,6 +295,11 @@ public class RoomRecycler extends RecyclerView.Adapter<RoomRecycler.ViewHolder> 
 
                     @Override
                     public void onSocketClosed() {
+
+                    }
+
+                    @Override
+                    public void onPrivateMessage(String sender, String message) {
 
                     }
 

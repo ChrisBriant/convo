@@ -45,13 +45,19 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
+
+        if(!socketFailureMessage.equals("")) {
+            //Re-initiate the connection if it has disconnected
+           conn = ServerConn.reconnect(this);
+        } else {
+            conn = ServerConn.getInstance(this);
+        }
+
         TextView mainTxtErr = findViewById(R.id.mainTxtErr);
         mainTxtErr.setText(socketFailureMessage);
 
         sharedPrefs = this.getSharedPreferences(this.getString(R.string.preference_file_key), Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPrefs.edit();
-
-        conn = ServerConn.getInstance(this);
 
         notifier = SockNotifier.getInstance();
 
@@ -103,6 +109,11 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onSocketClosed() {
+
+            }
+
+            @Override
+            public void onPrivateMessage(String sender, String message) {
 
             }
 

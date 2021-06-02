@@ -24,6 +24,7 @@ import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
+import chrisbriant.uk.convo.activities.MainActivity;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -140,6 +141,11 @@ public class ServerConn {
         if (single_instance == null)
             single_instance = new ServerConn(ctx);
 
+        return single_instance;
+    }
+
+    public static ServerConn reconnect(Context ctx) {
+        single_instance = new ServerConn(ctx);
         return single_instance;
     }
 

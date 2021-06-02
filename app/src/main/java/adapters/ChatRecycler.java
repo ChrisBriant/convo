@@ -46,15 +46,25 @@ public class ChatRecycler extends RecyclerView.Adapter<ChatRecycler.ViewHolder> 
         Log.d("BINDING", message.getFromClientId());
         Drawable speachOutgoing = ContextCompat.getDrawable(context, R.drawable.speach_outgoing);
         Drawable speachIncomming = ContextCompat.getDrawable(context, R.drawable.speech_incoming);
-        if(message.getFromClientId().equals(myId)) {
-            holder.chItmTxt.setBackground(speachOutgoing);
-            holder.chItmTxt.setPadding(80,6,0,6);
-            holder.chItmTxt.setText(message.getMessage());
-        } else {
-            holder.chItmTxt.setBackground(speachIncomming);
+        Drawable speachPrivate = ContextCompat.getDrawable(context, R.drawable.speech_private);
+        if(message.getPrivate()) {
+            //Display a private message
+            holder.chItmTxt.setBackground(speachPrivate);
             holder.chItmTxt.setPadding(10,6,80,6);
             holder.chItmTxt.setText(message.getMessage());
+
+        } else {
+            if(message.getFromClientId().equals(myId)) {
+                holder.chItmTxt.setBackground(speachOutgoing);
+                holder.chItmTxt.setPadding(80,6,0,6);
+                holder.chItmTxt.setText(message.getMessage());
+            } else {
+                holder.chItmTxt.setBackground(speachIncomming);
+                holder.chItmTxt.setPadding(10,6,80,6);
+                holder.chItmTxt.setText(message.getMessage());
+            }
         }
+
 
     }
 

@@ -107,10 +107,11 @@ public class MembersRecycler extends RecyclerView.Adapter<MembersRecycler.ViewHo
                                 try {
                                     payload.put("type", "room_pm");
                                     payload.put("client_id", m.getClientId());
-                                    payload.put("message", pmDiagEdtPassword.getText());
+                                    payload.put("message",m.getName()+ ":"+pmDiagEdtPassword.getText());
                                     payload.put("sender", myName);
                                     conn.send(payload.toString());
-                                } catch (JSONException e) {
+                                } catch (Exception e) {
+                                    Log.d("Exception",e.getMessage());
                                     e.printStackTrace();
                                 }
                             }
