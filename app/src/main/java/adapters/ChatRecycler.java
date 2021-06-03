@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -47,21 +48,21 @@ public class ChatRecycler extends RecyclerView.Adapter<ChatRecycler.ViewHolder> 
         Drawable speachOutgoing = ContextCompat.getDrawable(context, R.drawable.speach_outgoing);
         Drawable speachIncomming = ContextCompat.getDrawable(context, R.drawable.speech_incoming);
         Drawable speachPrivate = ContextCompat.getDrawable(context, R.drawable.speech_private);
+
+        holder.chItmTxt.setText(message.getMessage());
+        holder.chItmName.setText(message.getFromClientName());
+
         if(message.getPrivate()) {
             //Display a private message
-            holder.chItmTxt.setBackground(speachPrivate);
-            holder.chItmTxt.setPadding(10,6,80,6);
-            holder.chItmTxt.setText(message.getMessage());
-
+            holder.chItmContainer.setBackground(speachPrivate);
+            holder.chItmContainer.setPadding(10,6,80,6);
         } else {
             if(message.getFromClientId().equals(myId)) {
-                holder.chItmTxt.setBackground(speachOutgoing);
-                holder.chItmTxt.setPadding(80,6,0,6);
-                holder.chItmTxt.setText(message.getMessage());
+                holder.chItmContainer.setBackground(speachOutgoing);
+                holder.chItmContainer.setPadding(80,6,0,6);
             } else {
-                holder.chItmTxt.setBackground(speachIncomming);
-                holder.chItmTxt.setPadding(10,6,80,6);
-                holder.chItmTxt.setText(message.getMessage());
+                holder.chItmContainer.setBackground(speachIncomming);
+                holder.chItmContainer.setPadding(10,6,80,6);
             }
         }
 
@@ -79,11 +80,16 @@ public class ChatRecycler extends RecyclerView.Adapter<ChatRecycler.ViewHolder> 
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView chItmTxt;
+        TextView chItmName;
+        LinearLayout chItmContainer;
+
 
         public ViewHolder(@NonNull View itemView, Context context) {
             super(itemView);
 
             chItmTxt = itemView.findViewById(R.id.chItmTxt);
+            chItmName = itemView.findViewById(R.id.chItmName);
+            chItmContainer = itemView.findViewById(R.id.chItmContainer);
         }
     }
 }

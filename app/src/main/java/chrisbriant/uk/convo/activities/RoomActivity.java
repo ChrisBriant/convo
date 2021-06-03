@@ -4,11 +4,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -40,6 +43,7 @@ public class RoomActivity extends AppCompatActivity {
     private SharedPreferences sharedPrefs;
     private String password;
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,6 +62,17 @@ public class RoomActivity extends AppCompatActivity {
         TextView chatRmTxtTitle = findViewById(R.id.chatRmTxtTitle);
         chatRmTxtTitle.setText("You are in room " + roomName);
         EditText chatRmEdtMessage = findViewById(R.id.chatRmEdtMessage);
+
+        chatRmEdtMessage.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                Log.d("TOUCHED", "Chat message");
+                if(chatRmEdtMessage.getText().toString().equals("Send a chat message...")) {
+                    chatRmEdtMessage.setText("");
+                }
+                return false;
+            }
+        });
 
         RoomList roomList = RoomList.getInstance();
         RoomItem roomItem = (RoomItem) roomList.get((Object) roomName);

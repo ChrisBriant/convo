@@ -5,38 +5,76 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:padding="12dp"
     tools:context=".activities.RoomListActivity">
 
-    <EditText
-        android:id="@+id/rmListEdtRoomName"
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/enter_room_text"
+        android:text="@string/title_rooms"
+        android:textSize="20sp"
+        android:layout_gravity="center"
+        android:gravity="center"
         />
 
-
-    <CheckBox
-        android:id="@+id/rmListChkSecure"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/btn_secure"
+        android:background="@drawable/rectangle_bg"
+        android:padding="12dp"
+        android:layout_margin="12dp"
+        android:orientation="vertical"
+        >
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/text_enter_room_name"
+            android:textSize="20sp"
+            android:gravity="center"
+            />
+
+        <EditText
+            android:id="@+id/rmListEdtRoomName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/enter_room_text"
+            />
+
+
+        <CheckBox
+            android:id="@+id/rmListChkSecure"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/btn_secure"
+            android:visibility="gone"
+            />
+
+
+        <EditText
+            android:id="@+id/rmListEdtPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/enter_room_password"
+            android:visibility="gone"
+            />
+
+        <Button
+            android:id="@+id/rmListBtnSend"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/btn_send"
+            />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/rmListTxtRooms"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/text_rooms"
+        android:textSize="20sp"
+        android:gravity="center"
         android:visibility="gone"
-        />
-
-
-    <EditText
-        android:id="@+id/rmListEdtPassword"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/enter_room_password"
-        android:visibility="gone"
-        />
-
-    <Button
-        android:id="@+id/rmListBtnSend"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/btn_send"
         />
 
     <androidx.recyclerview.widget.RecyclerView

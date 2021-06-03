@@ -8,4 +8,11 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="error">#F55442</color>
+
+    <!-- Custom Theme Colors -->
+    <color name="ui_forground">#df7861</color>
+    <color name="ui_maintext">#ecb390</color>
+    <color name="ui_bgtext">#ffffff</color>
+    <color name="ui_bgdark">#ecdfc8</color>
+    <color name="ui_bg">#fcf8e8</color>
 </resources>

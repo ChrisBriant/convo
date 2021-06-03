@@ -16,4 +16,7 @@
     <string name="text_members">Also in the Room:</string>
     <string name="text_messages">Messages:</string>
     <string name="enter_personal_message">Type a message</string>
+    <string name="text_rooms">Rooms</string>
+    <string name="title_rooms">Chat Rooms</string>
+    <string name="text_enter_room_name">Create a New Room</string>
 </resources>

@@ -15,6 +15,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -50,6 +51,14 @@ public class RoomListActivity extends AppCompatActivity {
         notifier = SockNotifier.getInstance();
         roomList = RoomList.getInstance();
 
+        //UI ROOM LIST TITLE
+        TextView rmListTxtRooms = findViewById(R.id.rmListTxtRooms);
+        if(roomList.size() > 0) {
+            rmListTxtRooms.setVisibility(View.VISIBLE);
+        } else {
+            rmListTxtRooms.setVisibility(View.GONE);
+        }
+
         //Recycler
         Context ctx = this;
 
@@ -82,11 +91,13 @@ public class RoomListActivity extends AppCompatActivity {
                     public void run() {
                         try {
                             ArrayList<RoomItem> roomsForAdapter = roomList.loadRooms(rooms);
-                            Log.d("ROOMLIST", String.valueOf(roomList.size()));
                             roomRecycler.setRoomList(roomsForAdapter);
-                            Log.d("CLASS", this.getClass().toString());
                             roomRecycler.notifyDataSetChanged();
-                            Log.d("DID I WORK", "worked");
+                            if(roomsForAdapter.size() > 0) {
+                                rmListTxtRooms.setVisibility(View.VISIBLE);
+                            } else {
+                                rmListTxtRooms.setVisibility(View.GONE);
+                            }
                         } catch (Exception e) {
                             Log.d("EXCEPTION", e.toString());
                         }
