@@ -9,6 +9,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -135,8 +136,26 @@ public class RoomListActivity extends AppCompatActivity {
 
         //UI
         EditText rmListEdtRoomName = findViewById(R.id.rmListEdtRoomName);
+        rmListEdtRoomName.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if(rmListEdtRoomName.getText().toString().equals("Enter Room Name")) {
+                    rmListEdtRoomName.setText("");
+                }
+                return false;
+            }
+        });
         CheckBox rmListChkSecure = findViewById(R.id.rmListChkSecure);
         EditText rmListEdtPassword = findViewById(R.id.rmListEdtPassword);
+        rmListEdtPassword.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if(rmListEdtPassword.getText().toString().equals("Enter Password")) {
+                    rmListEdtPassword.setText("");
+                }
+                return false;
+            }
+        });
         Button rmListBtnSend = findViewById(R.id.rmListBtnSend);
 
 

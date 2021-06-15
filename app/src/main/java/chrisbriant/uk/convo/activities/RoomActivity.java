@@ -60,13 +60,12 @@ public class RoomActivity extends AppCompatActivity {
 
         //UI
         TextView chatRmTxtTitle = findViewById(R.id.chatRmTxtTitle);
-        chatRmTxtTitle.setText("You are in room " + roomName);
+        chatRmTxtTitle.setText(roomName);
         EditText chatRmEdtMessage = findViewById(R.id.chatRmEdtMessage);
 
         chatRmEdtMessage.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                Log.d("TOUCHED", "Chat message");
                 if(chatRmEdtMessage.getText().toString().equals("Send a chat message...")) {
                     chatRmEdtMessage.setText("");
                 }

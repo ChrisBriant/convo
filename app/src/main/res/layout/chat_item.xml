@@ -18,19 +18,24 @@
         android:layout_marginLeft="2dp"
         android:layout_marginRight="2dp"
         >
-    <TextView
-        android:id="@+id/chItmName"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="loading"
 
-        />
+        <TextView
+            android:id="@+id/chItmName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="loading"
+            android:textColor="#FFFFFF"
+
+            />
 
     <TextView
         android:id="@+id/chItmTxt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textColor="@color/ui_bg"
         android:text="loading"
+        android:gravity="center"
+        android:padding="12dp"
         />
     </LinearLayout>
 

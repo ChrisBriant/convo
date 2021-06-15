@@ -48,7 +48,7 @@
             android:layout_height="wrap_content"
             android:text="@string/btn_secure"
             android:visibility="gone"
-            />
+            app:useMaterialThemeColors="false" />
 
 
         <EditText

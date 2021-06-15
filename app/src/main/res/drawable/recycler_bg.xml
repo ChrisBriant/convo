@@ -6,4 +6,5 @@
         android:bottom="2dp" />
     <corners android:radius="5dp" />
     <solid android:color="@color/ui_bgdark" />
+    <stroke android:color="@color/ui_forground" android:width="2dp" />
 </shape>

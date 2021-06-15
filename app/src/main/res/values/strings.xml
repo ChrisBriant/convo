@@ -19,4 +19,5 @@
     <string name="text_rooms">Rooms</string>
     <string name="title_rooms">Chat Rooms</string>
     <string name="text_enter_room_name">Create a New Room</string>
+    <string name="in_room_title">You are in room:</string>
 </resources>

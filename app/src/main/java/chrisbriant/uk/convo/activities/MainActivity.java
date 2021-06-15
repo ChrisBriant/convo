@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -121,6 +122,16 @@ public class MainActivity extends AppCompatActivity {
 
         //UI
         EditText mainEdtName = findViewById(R.id.mainEdtName);
+        mainEdtName.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                Log.d("TOUCHED", "NAME");
+                if(mainEdtName.getText().toString().equals("Enter Name")) {
+                    mainEdtName.setText("");
+                }
+                return false;
+            }
+        });
         Button mainBtnSend = findViewById(R.id.mainBtnSend);
 
         mainBtnSend.setOnClickListener(new View.OnClickListener() {

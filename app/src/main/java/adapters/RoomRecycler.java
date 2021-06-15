@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -12,11 +13,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.json.JSONArray;
@@ -66,9 +69,11 @@ public class RoomRecycler extends RecyclerView.Adapter<RoomRecycler.ViewHolder> 
 //            holder.rmStatus.setText("Open");
 //        }
         if(room.isRoomSecure()) {
-            holder.rmItmSecure.setText("secure");
+            Drawable lock = ResourcesCompat.getDrawable(context.getResources(),R.drawable.ic_padlock_closed,null);
+            holder.rmItmSecure.setImageDrawable(lock);
         } else {
-            holder.rmItmSecure.setText("open");
+            Drawable lock = ResourcesCompat.getDrawable(context.getResources(),R.drawable.ic_padlock_open,null);
+            holder.rmItmSecure.setImageDrawable(lock);
         }
 
         Log.d("BINDING",room.getRoomName());
@@ -89,7 +94,7 @@ public class RoomRecycler extends RecyclerView.Adapter<RoomRecycler.ViewHolder> 
         private TextView rmItmName;
         //private TextView rmOwner;
         private TextView rmNoPlayers;
-        private TextView rmItmSecure;
+        private ImageView rmItmSecure;
 
         public ViewHolder(@NonNull View itemView, Context ctx) {
             super(itemView);

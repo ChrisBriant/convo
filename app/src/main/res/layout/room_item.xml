@@ -7,14 +7,14 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:background="@drawable/recycler_bg"
-    android:padding="2dp"
+    android:padding="6dp"
     android:layout_margin="2dp"
     >
 
 
     <TextView
         android:id="@+id/rmItmName2"
-        android:layout_width="80dp"
+        android:layout_width="140dp"
         android:layout_height="wrap_content"
         android:text="loading"
         />
@@ -30,17 +30,26 @@
 
     <TextView
         android:id="@+id/rmItmNoPlayers"
-        android:layout_width="10dp"
-        android:layout_height="wrap_content"
-        android:text="loading"
-        />
-
-
-    <TextView
-        android:id="@+id/rmItmSecure"
         android:layout_width="40dp"
         android:layout_height="wrap_content"
         android:text="loading"
+        android:textAlignment="gravity"
+        android:gravity="right"
+        />
+
+    <ImageView
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:src="@drawable/ic_person"
+        />
+
+
+    <ImageView
+        android:id="@+id/rmItmSecure"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:src="@drawable/ic_padlock_open"
+
         />
 
 </LinearLayout>
