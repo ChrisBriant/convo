@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -89,6 +90,16 @@ public class MembersRecycler extends RecyclerView.Adapter<MembersRecycler.ViewHo
                 TextView pmDiagTitle = view.findViewById(R.id.pmDiagTitle);
                 pmDiagTitle.setText("Send a personal message to " + m.getName());
                 EditText pmDiagEdtPassword = view.findViewById(R.id.pmDiagEdtPassword);
+                pmDiagEdtPassword.setOnTouchListener(new View.OnTouchListener() {
+                    @Override
+                    public boolean onTouch(View v, MotionEvent event) {
+                        Log.d("TOUCHED", "NAME");
+                        if(pmDiagEdtPassword.getText().toString().equals("Type a message")) {
+                            pmDiagEdtPassword.setText("");
+                        }
+                        return false;
+                    }
+                });
                 Button pmDiagBtnSend = view.findViewById(R.id.pmDiagBtnSend);
                 Button pmDiagBtnCancel = view.findViewById(R.id.pmDiagBtnCancel);
 
@@ -116,6 +127,7 @@ public class MembersRecycler extends RecyclerView.Adapter<MembersRecycler.ViewHo
                                 }
                             }
                         });
+                        alertDialog.dismiss();
                     }
                 });
 

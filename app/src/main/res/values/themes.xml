@@ -16,5 +16,6 @@
         <item name="backgroundColor">@color/ui_bg</item>
         <item name="android:textColor">@color/ui_forground</item>
         <item name="android:textStyle">bold</item>
+        <item name="android:editTextColor">@color/ui_text_dark</item>
     </style>
 </resources>

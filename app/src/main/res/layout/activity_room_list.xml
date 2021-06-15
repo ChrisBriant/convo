@@ -47,6 +47,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/btn_secure"
+            android:textColor="@color/ui_text_dark"
             android:visibility="gone"
             app:useMaterialThemeColors="false" />
 

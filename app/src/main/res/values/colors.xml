@@ -15,5 +15,5 @@
     <color name="ui_bgtext">#ffffff</color>
     <color name="ui_bgdark">#ecdfc8</color>
     <color name="ui_bg">#fcf8e8</color>
-    <color name="ui_outline_blue">#72DBED</color>
+    <color name="ui_text_dark">#90514C</color>
 </resources>

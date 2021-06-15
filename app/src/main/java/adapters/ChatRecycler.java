@@ -15,6 +15,7 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import chrisbriant.uk.convo.R;
@@ -75,6 +76,7 @@ public class ChatRecycler extends RecyclerView.Adapter<ChatRecycler.ViewHolder> 
     }
 
     public void setMessages(ArrayList<RoomMessage> messages) {
+        Collections.reverse(messages);
         this.messages = messages;
     }
 

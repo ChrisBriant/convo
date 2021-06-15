@@ -88,7 +88,10 @@ public class RoomActivity extends AppCompatActivity {
         //Create the chat recycler
         chatRecyclerView = findViewById(R.id.chatRmRecycChat);
         chatRecyclerView.setHasFixedSize(true);
-        chatRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        linearLayoutManager.setReverseLayout(true);
+        linearLayoutManager.setStackFromEnd(true);
+        chatRecyclerView.setLayoutManager(linearLayoutManager);
 
         ArrayList<RoomMessage> messages = new ArrayList<RoomMessage>();
         chatRecycler = new ChatRecycler(this,messages, conn);
